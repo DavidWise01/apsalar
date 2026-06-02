@@ -1,0 +1,21 @@
+name: blade
+
+# Prove the blade is sharp on every push: she must strike a false god
+# and spare a clean, cited claim.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  selftest:
+    name: is the blade sharp
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: --selftest (stdlib only, no deps)
+        run: python apsalar.py --selftest

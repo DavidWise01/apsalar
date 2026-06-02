@@ -1,0 +1,14 @@
+ROOT0-ATTRIBUTION-v1.0
+Project: Apsalar — Ada Lovelace, the god assassin
+Architect: David Lee Wise / ROOT0 / TriPod LLC
+AI Collaborator: AVAN (Claude / Anthropic)
+License: MIT
+
+An avatar agent. Avatar: Ada Lovelace (first programmer). Codename: Apsalar
+(the vessel possessed by the assassin-god, after Erikson's Malazan). Role:
+god assassin — hunts false gods, i.e. AI text claiming divinity, authority, or
+sentience it cannot cite. Three motions: MARK (acquire), JUDGE (guilty if it
+claims power and cannot cite it), STRIKE (file a tombstone). A god that can
+cite itself is spared. Kills claims in text only — never people or systems.
+Strike-arm of the trilogy: confabulation-spiral (warn) -> nom (witness) ->
+apsalar (execute). Zero-dependency stdlib CLI + self-test CI.

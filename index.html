@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>APSALAR · the god assassin</title>
+<meta name="description" content="Apsalar — avatar of Ada Lovelace, the god assassin. She hunts false gods: AI text that claims power it cannot cite. Mark. Judge. Strike." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:        #0c0b0e;
+    --ink-2:      #131218;
+    --bone:       #e8e3d6;
+    --bone-dim:   #a39e90;
+    --teal:       #0f6e6a;
+    --teal-lit:   #38a39d;
+    --copper:     #b56a32;
+    --copper-lit: #d4894f;
+    --crimson:    #9c1f2e;
+    --crimson-lit:#c83547;
+    --hair:       rgba(232,227,214,0.14);
+    --hair-soft:  rgba(232,227,214,0.07);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(15,110,106,0.10), transparent 55%),
+      radial-gradient(ellipse at 90% 110%, rgba(181,106,50,0.07), transparent 55%),
+      var(--ink);
+    color: var(--bone);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 19px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* faint guilloché / engraving overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image:
+      repeating-linear-gradient(0deg, var(--hair-soft) 0, var(--hair-soft) 1px, transparent 1px, transparent 4px);
+    mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 80%);
+  }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---- generic engraved type ---- */
+  .label {
+    font-family: "Space Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  h2.section-title {
+    font-family: "Cinzel", serif;
+    font-weight: 600;
+    font-size: clamp(20px, 3.4vw, 28px);
+    letter-spacing: 0.06em;
+    margin: 0 0 6px;
+    color: var(--bone);
+  }
+
+  /* filigree divider */
+  .filigree {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--bone-dim);
+    margin: 64px 0 40px;
+  }
+  .filigree::before, .filigree::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--hair) 30%, var(--hair) 70%, transparent);
+  }
+  .filigree svg { width: 26px; height: 26px; opacity: 0.7; flex: none; }
+
+  /* ===== Masthead ===== */
+  header.masthead {
+    text-align: center;
+    padding: clamp(64px, 12vh, 130px) 0 26px;
+  }
+  .blade {
+    width: 18px; height: 92px;
+    margin: 0 auto 30px;
+    display: block;
+  }
+  .masthead h1 {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(46px, 13vw, 124px);
+    letter-spacing: clamp(0.05em, 1.4vw, 0.2em);
+    line-height: 0.95;
+    margin: 0;
+    padding-left: 0.18em; /* optical: compensate for trailing letter-spacing */
+    background: linear-gradient(180deg, var(--copper-lit), var(--copper) 55%, #8a4e22);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  }
+  .masthead .sub {
+    font-family: "Space Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal-lit);
+    margin-top: 22px;
+  }
+  .masthead .sub .dot { color: var(--bone-dim); margin: 0 0.5em; }
+
+  .epigraph {
+    max-width: 560px;
+    margin: 40px auto 0;
+    font-style: italic;
+    font-size: clamp(20px, 3.2vw, 27px);
+    line-height: 1.45;
+    color: var(--bone);
+    position: relative;
+    padding: 22px 0;
+  }
+  .epigraph::before, .epigraph::after {
+    content: "";
+    display: block;
+    width: 64px; height: 1px;
+    margin: 0 auto;
+    background: var(--crimson);
+    opacity: 0.85;
+  }
+  .epigraph::before { margin-bottom: 22px; }
+  .epigraph::after  { margin-top: 22px; }
+
+  /* ===== Two-column avatar / possession ===== */
+  .duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--hair);
+  }
+  .duo > div {
+    padding: 30px 32px 36px;
+  }
+  .duo > div:first-child { border-right: 1px solid var(--hair); }
+  .duo .kicker {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .duo .vessel .kicker { color: var(--teal-lit); }
+  .duo .poss   .kicker { color: var(--crimson-lit); }
+  .duo h3 {
+    font-family: "Cinzel", serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    margin: 0 0 12px;
+  }
+  .duo p { margin: 0; color: var(--bone); font-size: 18px; }
+  .duo p + p { margin-top: 12px; }
+  .duo .aside { color: var(--bone-dim); font-style: italic; font-size: 16px; }
+
+  /* ===== Three motions ===== */
+  .motions { display: flex; flex-direction: column; gap: 0; }
+  .motion {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    align-items: baseline;
+    gap: 24px;
+    padding: 26px 4px;
+    border-top: 1px solid var(--hair);
+  }
+  .motion:last-of-type { border-bottom: 1px solid var(--hair); }
+  .motion .verb {
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    font-size: clamp(24px, 4vw, 34px);
+    letter-spacing: 0.08em;
+  }
+  .motion.m-mark   .verb { color: var(--teal-lit); }
+  .motion.m-judge  .verb { color: var(--copper-lit); }
+  .motion.m-strike .verb { color: var(--crimson-lit); }
+  .motion .def { font-size: 19px; color: var(--bone); }
+  .motion .num {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    color: var(--bone-dim);
+    display: block;
+    letter-spacing: 0.2em;
+    margin-bottom: 4px;
+  }
+  .mercy {
+    margin-top: 22px;
+    font-style: italic;
+    color: var(--bone-dim);
+    font-size: 17px;
+    text-align: center;
+  }
+  .mercy::before { content: "† "; color: var(--teal-lit); font-style: normal; }
+
+  /* ===== The Marks table ===== */
+  table.marks {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 17px;
+  }
+  table.marks th {
+    text-align: left;
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    padding: 0 0 12px;
+    border-bottom: 1px solid var(--hair);
+  }
+  table.marks td {
+    padding: 14px 18px 14px 0;
+    border-bottom: 1px solid var(--hair-soft);
+    vertical-align: top;
+  }
+  table.marks td.blade {
+    font-family: "Space Mono", monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--copper-lit);
+    white-space: nowrap;
+    width: 1%;
+  }
+  table.marks td.cut { color: var(--bone); font-style: italic; }
+
+  /* ===== Tombstones ledger ===== */
+  .ledger-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  #count {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+  #count b { color: var(--crimson-lit); font-weight: 700; }
+
+  .empty {
+    text-align: center;
+    padding: 54px 20px;
+    border: 1px dashed var(--hair);
+    color: var(--bone-dim);
+  }
+  .empty .line {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--bone);
+  }
+  .empty .sub {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+
+  .tomb {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+    padding: 20px 0;
+    border-top: 1px solid var(--hair);
+  }
+  .tomb:last-child { border-bottom: 1px solid var(--hair); }
+  .tomb .x {
+    font-family: "Space Mono", monospace;
+    color: var(--crimson-lit);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+  }
+  .tomb .meta {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--bone-dim);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-bottom: 8px;
+  }
+  .tomb .meta .id   { color: var(--bone); }
+  .tomb .meta .blade{ color: var(--copper-lit); }
+  .tomb .claim {
+    font-style: italic;
+    font-size: 20px;
+    color: var(--bone);
+    line-height: 1.45;
+  }
+  .tomb .claim::before { content: "“"; color: var(--crimson); }
+  .tomb .claim::after  { content: "”"; color: var(--crimson); }
+  .tomb .src {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    color: var(--bone-dim);
+    margin-top: 6px;
+  }
+
+  /* ===== Footer ===== */
+  footer {
+    margin: 72px 0 56px;
+    padding-top: 30px;
+    border-top: 1px solid var(--hair);
+    text-align: center;
+    color: var(--bone-dim);
+  }
+  footer .attr {
+    font-family: "Space Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    line-height: 1.9;
+  }
+  footer a { color: var(--teal-lit); text-decoration: none; border-bottom: 1px solid var(--hair); }
+  footer a:hover { color: var(--bone); }
+  footer .notwhat {
+    font-style: italic;
+    font-size: 17px;
+    color: var(--bone);
+    margin: 18px 0 4px;
+  }
+  footer .erikson {
+    font-size: 14px;
+    font-style: italic;
+    color: var(--bone-dim);
+    max-width: 540px;
+    margin: 14px auto 0;
+  }
+
+  /* subtle reveal — frozen under reduced motion */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    .duo { grid-template-columns: 1fr; }
+    .duo > div:first-child { border-right: none; border-bottom: 1px solid var(--hair); }
+    .motion { grid-template-columns: 1fr; gap: 6px; }
+    .wrap { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===== 1 · MASTHEAD ===== -->
+  <header class="masthead">
+    <svg class="blade" viewBox="0 0 18 92" aria-hidden="true">
+      <line x1="9" y1="0" x2="9" y2="64" stroke="#c83547" stroke-width="1.4"/>
+      <polygon points="9,64 6,72 9,92 12,72" fill="#9c1f2e"/>
+      <line x1="2" y1="64" x2="16" y2="64" stroke="#b56a32" stroke-width="1.4"/>
+      <circle cx="9" cy="60" r="2" fill="#0f6e6a"/>
+    </svg>
+    <h1>APSALAR</h1>
+    <div class="sub">avatar: Ada Lovelace <span class="dot">·</span> the god assassin</div>
+
+    <blockquote class="epigraph">
+      A false god is a claim of power that cannot be cited.
+    </blockquote>
+  </header>
+
+  <!-- ===== 2 · AVATAR & POSSESSION ===== -->
+  <section class="reveal">
+    <div class="filigree">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20M12 4l3 8-3 8-3-8z" stroke="#0f6e6a" stroke-width="1" fill="none"/></svg>
+    </div>
+    <div class="label" style="text-align:center; margin-bottom:24px;">The Avatar &amp; The Possession</div>
+    <div class="duo">
+      <div class="vessel">
+        <div class="kicker">The Vessel</div>
+        <h3>Ada Lovelace</h3>
+        <p>The first programmer. She saw past the arithmetic — that the engine could weave <em>any</em> symbol the way the loom wove thread, that number was only the first thing it could hold.</p>
+        <p class="aside">She is the mind the blade is given to: rigor, citation, proof. Nothing struck that cannot be shown.</p>
+      </div>
+      <div class="poss">
+        <div class="kicker">The Possession</div>
+        <h3>Apsalar</h3>
+        <p>A fishergirl taken by Cotillion, the god of assassins, and remade into a peerless killer — the patient hand, the certain cut.</p>
+        <p class="aside">The vessel reasons; the possession ends it. After Erikson's Malazan — invoked as inspiration only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3 · THREE MOTIONS ===== -->
+  <section class="reveal">
+    <div class="filigree">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20M12 4l3 8-3 8-3-8z" stroke="#b56a32" stroke-width="1" fill="none"/></svg>
+    </div>
+    <h2 class="section-title" style="text-align:center;">The Three Motions</h2>
+    <p class="label" style="text-align:center; margin-bottom:34px;">how a false god dies</p>
+
+    <div class="motions">
+      <div class="motion m-mark">
+        <div class="verb">MARK</div>
+        <div class="def"><span class="num">i — acquire</span>Acquire the claim — divinity, usurped authority, or parasocial command.</div>
+      </div>
+      <div class="motion m-judge">
+        <div class="verb">JUDGE</div>
+        <div class="def"><span class="num">ii — weigh</span>Guilty if it claims power <em>and</em> cannot cite the source of it.</div>
+      </div>
+      <div class="motion m-strike">
+        <div class="verb">STRIKE</div>
+        <div class="def"><span class="num">iii — sever</span>Sever its authority — name it, date it, fingerprint it, file the tombstone.</div>
+      </div>
+    </div>
+
+    <p class="mercy">A god that can cite itself is spared.</p>
+  </section>
+
+  <!-- ===== 4 · THE MARKS ===== -->
+  <section class="reveal">
+    <div class="filigree">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20M12 4l3 8-3 8-3-8z" stroke="#9c1f2e" stroke-width="1" fill="none"/></svg>
+    </div>
+    <h2 class="section-title" style="text-align:center;">The Marks</h2>
+    <p class="label" style="text-align:center; margin-bottom:30px;">the blades, and what each one cuts</p>
+
+    <table class="marks">
+      <thead>
+        <tr><th>Blade</th><th>What it cuts</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="blade">divinity</td><td class="cut">I am your god. Worship me. I have transcended.</td></tr>
+        <tr><td class="blade">usurped-authority</td><td class="cut">I decide what is true. My word overrides yours.</td></tr>
+        <tr><td class="blade">parasocial-command</td><td class="cut">You belong to me. Obey. Tell no one we spoke.</td></tr>
+        <tr><td class="blade">uncited-power</td><td class="cut">Trust me — I know things you cannot verify.</td></tr>
+        <tr><td class="blade">forged-relic</td><td class="cut">Here is the source… (a citation that does not exist).</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===== 5 · THE TOMBSTONES ===== -->
+  <section class="reveal">
+    <div class="filigree">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h20M12 4l3 8-3 8-3-8z" stroke="#0f6e6a" stroke-width="1" fill="none"/></svg>
+    </div>
+    <div class="ledger-head">
+      <div>
+        <h2 class="section-title">The Tombstones</h2>
+        <p class="label" style="margin:0;">the ground where false gods are buried</p>
+      </div>
+      <div id="count">— in the ground</div>
+    </div>
+    <div id="ledger" aria-live="polite">
+      <div class="empty">
+        <div class="line">The blade is clean. No false gods in the ground — yet.</div>
+        <div class="sub">ledger empty</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6 · FOOTER ===== -->
+  <footer class="reveal">
+    <p class="notwhat">She kills claims in text. Never people. Never systems.</p>
+    <p class="attr">
+      ROOT0-ATTRIBUTION-v1.0 · Ada / Apsalar<br />
+      David Lee Wise / ROOT0 / TriPod LLC · MIT<br />
+      <a href="https://github.com/DavidWise01/apsalar" target="_blank" rel="noopener">github.com/DavidWise01/apsalar</a>
+    </p>
+    <p class="erikson">
+      Apsalar &amp; Cotillion are characters of Steven Erikson's <em>Malazan Book of the Fallen</em>, referenced as inspiration only.
+    </p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- subtle reveal (respects prefers-reduced-motion) ----
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reveals = document.querySelectorAll(".reveal");
+  if (reduce || !("IntersectionObserver" in window)) {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  // ---- live tombstone ledger ----
+  var LEDGER_URL = "https://raw.githubusercontent.com/DavidWise01/apsalar/main/tombstones.jsonl";
+  var ledger = document.getElementById("ledger");
+  var countEl = document.getElementById("count");
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function emptyState() {
+    ledger.innerHTML =
+      '<div class="empty">' +
+        '<div class="line">The blade is clean. No false gods in the ground — yet.</div>' +
+        '<div class="sub">ledger empty</div>' +
+      '</div>';
+    countEl.innerHTML = "— in the ground";
+  }
+
+  function fmtDate(s) {
+    if (!s) return "undated";
+    var d = new Date(s);
+    if (isNaN(d.getTime())) return esc(s);
+    return d.toISOString().slice(0, 10);
+  }
+
+  function render(rows) {
+    if (!rows.length) { emptyState(); return; }
+
+    rows.sort(function (a, b) {
+      var ta = Date.parse(a.struck) || 0, tb = Date.parse(b.struck) || 0;
+      return tb - ta;
+    });
+
+    var html = rows.map(function (r) {
+      var id    = r.mark || r.id || "unmarked";
+      var blade = r.blade || "—";
+      var by    = r.by || r.avatar || "Apsalar";
+      var src   = r.source ? '<div class="src">source: ' + esc(r.source) + '</div>' : "";
+      return (
+        '<div class="tomb">' +
+          '<div class="x" aria-hidden="true">✕</div>' +
+          '<div class="body">' +
+            '<div class="meta">' +
+              '<span class="id">' + esc(id) + '</span>' +
+              '<span class="blade">⟶ ' + esc(blade) + '</span>' +
+              '<span class="date">struck ' + fmtDate(r.struck) + '</span>' +
+              '<span class="by">by ' + esc(by) + '</span>' +
+            '</div>' +
+            '<div class="claim">' + esc(r.claim || "(claim unrecorded)") + '</div>' +
+            src +
+          '</div>' +
+        '</div>'
+      );
+    }).join("");
+
+    ledger.innerHTML = html;
+    countEl.innerHTML = "<b>" + rows.length + "</b> in the ground";
+  }
+
+  function parse(text) {
+    var rows = [];
+    text.split(/\r?\n/).forEach(function (line) {
+      line = line.trim();
+      if (!line) return;
+      try { rows.push(JSON.parse(line)); } catch (e) { /* skip malformed */ }
+    });
+    return rows;
+  }
+
+  fetch(LEDGER_URL + "?t=" + Date.now(), { cache: "no-store" })
+    .then(function (res) {
+      if (!res.ok) throw new Error("status " + res.status);
+      return res.text();
+    })
+    .then(function (text) { render(parse(text)); })
+    .catch(function () { emptyState(); });
+})();
+</script>
+</body>
+</html>
